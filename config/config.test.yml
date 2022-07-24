@@ -1,0 +1,8 @@
+database:
+  user: root
+  password: password
+  host: localhost:5432
+  database: db_test
+
+server:
+  address: localhost:5000

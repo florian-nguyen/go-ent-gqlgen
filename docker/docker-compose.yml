@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres-db
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    volumes: 
+      - ../docker/sql/migrations/20220724145343_create_users_todos.up.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
