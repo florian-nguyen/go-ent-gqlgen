@@ -42,8 +42,6 @@ type TodoEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
-	// totalCount holds the count of the edges above.
-	totalCount [1]*int
 }
 
 // UserOrErr returns the User value or an error if the edge
@@ -162,23 +160,18 @@ func (t *Todo) Unwrap() *Todo {
 func (t *Todo) String() string {
 	var builder strings.Builder
 	builder.WriteString("Todo(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
-	builder.WriteString("user_id=")
+	builder.WriteString(fmt.Sprintf("id=%v", t.ID))
+	builder.WriteString(", user_id=")
 	builder.WriteString(fmt.Sprintf("%v", t.UserID))
-	builder.WriteString(", ")
-	builder.WriteString("name=")
+	builder.WriteString(", name=")
 	builder.WriteString(t.Name)
-	builder.WriteString(", ")
-	builder.WriteString("status=")
+	builder.WriteString(", status=")
 	builder.WriteString(fmt.Sprintf("%v", t.Status))
-	builder.WriteString(", ")
-	builder.WriteString("priority=")
+	builder.WriteString(", priority=")
 	builder.WriteString(fmt.Sprintf("%v", t.Priority))
-	builder.WriteString(", ")
-	builder.WriteString("created_at=")
+	builder.WriteString(", created_at=")
 	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("updated_at=")
+	builder.WriteString(", updated_at=")
 	builder.WriteString(t.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()

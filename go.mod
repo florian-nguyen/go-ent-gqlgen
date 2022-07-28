@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	ariga.io/atlas v0.5.0
-	entgo.io/contrib v0.3.0
-	entgo.io/ent v0.10.2-0.20220528091257-0917701f9114
+	entgo.io/contrib v0.2.0
+	entgo.io/ent v0.10.1
 	github.com/99designs/gqlgen v0.17.13
 	github.com/gavv/httpexpect/v2 v2.3.1
 	github.com/gin-gonic/gin v1.8.1
@@ -39,7 +39,8 @@ require (
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/hashicorp/errwrap v1.0.0 // indirect
+	github.com/graphql-go/graphql v0.7.10-0.20210411022516-8a92e977c10b // indirect
+	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.10.0 // indirect

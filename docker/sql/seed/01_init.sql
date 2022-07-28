@@ -5,5 +5,5 @@ INSERT INTO "users" (id, name, age, created_at, updated_at) VALUES
 ('0AA01G8P2N82HKBEE6AWMGJ9QJ9YB', 'Olivier', 30, '2022-07-23', '2022-07-23'),
 ('0AA01G8R7P26E9F4Y49Z2MQFGT3K6', 'Erina', 16, '2022-07-24', '2022-07-24');
 
--- INSERT INTO "todos" (id, name, status, priority, created_at, updated_at, user_id) VALUES
--- (1, 'Do something', 'IN_PROGRESS', 1, now(), now(), 1);
+INSERT INTO "todos" (id, name, status, priority, created_at, updated_at, user_id) VALUES
+(1, 'Do something', 'IN_PROGRESS', 1, now(), now(), '0AA01G86PGDTQCA2EE02J5CARF88Y');

@@ -9,6 +9,8 @@ entdes:
 entmig:
 	APP_ENV=dev go run ./cmd/migration/main.go
 gqlgen:
-	gqlgen
+	go run github.com/99designs/gqlgen
+air:
+	go run github.com/cosmtrek/air
 
-.PHONY: createdb dropdb entgen entdes entmig gqlgen
+.PHONY: createdb dropdb entgen entdes entmig gqlgen air

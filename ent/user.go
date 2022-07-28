@@ -37,8 +37,6 @@ type UserEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
-	// totalCount holds the count of the edges above.
-	totalCount [1]*int
 }
 
 // TodosOrErr returns the Todos value or an error if the edge
@@ -140,17 +138,14 @@ func (u *User) Unwrap() *User {
 func (u *User) String() string {
 	var builder strings.Builder
 	builder.WriteString("User(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", u.ID))
-	builder.WriteString("name=")
+	builder.WriteString(fmt.Sprintf("id=%v", u.ID))
+	builder.WriteString(", name=")
 	builder.WriteString(u.Name)
-	builder.WriteString(", ")
-	builder.WriteString("age=")
+	builder.WriteString(", age=")
 	builder.WriteString(fmt.Sprintf("%v", u.Age))
-	builder.WriteString(", ")
-	builder.WriteString("created_at=")
+	builder.WriteString(", created_at=")
 	builder.WriteString(u.CreatedAt.Format(time.ANSIC))
-	builder.WriteString(", ")
-	builder.WriteString("updated_at=")
+	builder.WriteString(", updated_at=")
 	builder.WriteString(u.UpdatedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()

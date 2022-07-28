@@ -147,7 +147,7 @@ func (c *TodoClient) Use(hooks ...Hook) {
 	c.hooks.Todo = append(c.hooks.Todo, hooks...)
 }
 
-// Create returns a builder for creating a Todo entity.
+// Create returns a create builder for Todo.
 func (c *TodoClient) Create() *TodoCreate {
 	mutation := newTodoMutation(c.config, OpCreate)
 	return &TodoCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
@@ -182,12 +182,12 @@ func (c *TodoClient) Delete() *TodoDelete {
 	return &TodoDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// DeleteOne returns a builder for deleting the given entity.
+// DeleteOne returns a delete builder for the given entity.
 func (c *TodoClient) DeleteOne(t *Todo) *TodoDeleteOne {
 	return c.DeleteOneID(t.ID)
 }
 
-// DeleteOne returns a builder for deleting the given entity by its id.
+// DeleteOneID returns a delete builder for the given id.
 func (c *TodoClient) DeleteOneID(id ulid.ID) *TodoDeleteOne {
 	builder := c.Delete().Where(todo.ID(id))
 	builder.mutation.id = &id
@@ -253,7 +253,7 @@ func (c *UserClient) Use(hooks ...Hook) {
 	c.hooks.User = append(c.hooks.User, hooks...)
 }
 
-// Create returns a builder for creating a User entity.
+// Create returns a create builder for User.
 func (c *UserClient) Create() *UserCreate {
 	mutation := newUserMutation(c.config, OpCreate)
 	return &UserCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
@@ -288,12 +288,12 @@ func (c *UserClient) Delete() *UserDelete {
 	return &UserDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// DeleteOne returns a builder for deleting the given entity.
+// DeleteOne returns a delete builder for the given entity.
 func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
 	return c.DeleteOneID(u.ID)
 }
 
-// DeleteOne returns a builder for deleting the given entity by its id.
+// DeleteOneID returns a delete builder for the given id.
 func (c *UserClient) DeleteOneID(id ulid.ID) *UserDeleteOne {
 	builder := c.Delete().Where(user.ID(id))
 	builder.mutation.id = &id

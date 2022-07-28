@@ -3,7 +3,6 @@
 package ent
 
 import (
-	"errors"
 	"fmt"
 	"go-ent-gqlgen/ent/predicate"
 	"go-ent-gqlgen/ent/schema/ulid"
@@ -14,10 +13,9 @@ import (
 
 // TodoWhereInput represents a where input for filtering Todo queries.
 type TodoWhereInput struct {
-	Predicates []predicate.Todo  `json:"-"`
-	Not        *TodoWhereInput   `json:"not,omitempty"`
-	Or         []*TodoWhereInput `json:"or,omitempty"`
-	And        []*TodoWhereInput `json:"and,omitempty"`
+	Not *TodoWhereInput   `json:"not,omitempty"`
+	Or  []*TodoWhereInput `json:"or,omitempty"`
+	And []*TodoWhereInput `json:"and,omitempty"`
 
 	// "id" field predicates.
 	ID      *ulid.ID  `json:"id,omitempty"`
@@ -102,11 +100,6 @@ type TodoWhereInput struct {
 	HasUserWith []*UserWhereInput `json:"hasUserWith,omitempty"`
 }
 
-// AddPredicates adds custom predicates to the where input to be used during the filtering phase.
-func (i *TodoWhereInput) AddPredicates(predicates ...predicate.Todo) {
-	i.Predicates = append(i.Predicates, predicates...)
-}
-
 // Filter applies the TodoWhereInput filter on the TodoQuery builder.
 func (i *TodoWhereInput) Filter(q *TodoQuery) (*TodoQuery, error) {
 	if i == nil {
@@ -114,16 +107,10 @@ func (i *TodoWhereInput) Filter(q *TodoQuery) (*TodoQuery, error) {
 	}
 	p, err := i.P()
 	if err != nil {
-		if err == ErrEmptyTodoWhereInput {
-			return q, nil
-		}
 		return nil, err
 	}
 	return q.Where(p), nil
 }
-
-// ErrEmptyTodoWhereInput is returned in case the TodoWhereInput is empty.
-var ErrEmptyTodoWhereInput = errors.New("ent: empty predicate TodoWhereInput")
 
 // P returns a predicate for filtering todos.
 // An error is returned if the input is empty or invalid.
@@ -132,7 +119,7 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 	if i.Not != nil {
 		p, err := i.Not.P()
 		if err != nil {
-			return nil, fmt.Errorf("%w: field 'not'", err)
+			return nil, err
 		}
 		predicates = append(predicates, todo.Not(p))
 	}
@@ -140,7 +127,7 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 	case n == 1:
 		p, err := i.Or[0].P()
 		if err != nil {
-			return nil, fmt.Errorf("%w: field 'or'", err)
+			return nil, err
 		}
 		predicates = append(predicates, p)
 	case n > 1:
@@ -148,7 +135,7 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 		for _, w := range i.Or {
 			p, err := w.P()
 			if err != nil {
-				return nil, fmt.Errorf("%w: field 'or'", err)
+				return nil, err
 			}
 			or = append(or, p)
 		}
@@ -158,7 +145,7 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 	case n == 1:
 		p, err := i.And[0].P()
 		if err != nil {
-			return nil, fmt.Errorf("%w: field 'and'", err)
+			return nil, err
 		}
 		predicates = append(predicates, p)
 	case n > 1:
@@ -166,13 +153,12 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 		for _, w := range i.And {
 			p, err := w.P()
 			if err != nil {
-				return nil, fmt.Errorf("%w: field 'and'", err)
+				return nil, err
 			}
 			and = append(and, p)
 		}
 		predicates = append(predicates, todo.And(and...))
 	}
-	predicates = append(predicates, i.Predicates...)
 	if i.ID != nil {
 		predicates = append(predicates, todo.IDEQ(*i.ID))
 	}
@@ -378,7 +364,7 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 		for _, w := range i.HasUserWith {
 			p, err := w.P()
 			if err != nil {
-				return nil, fmt.Errorf("%w: field 'HasUserWith'", err)
+				return nil, err
 			}
 			with = append(with, p)
 		}
@@ -386,7 +372,7 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 	}
 	switch len(predicates) {
 	case 0:
-		return nil, ErrEmptyTodoWhereInput
+		return nil, fmt.Errorf("go-ent-gqlgen/ent: empty predicate TodoWhereInput")
 	case 1:
 		return predicates[0], nil
 	default:
@@ -396,10 +382,9 @@ func (i *TodoWhereInput) P() (predicate.Todo, error) {
 
 // UserWhereInput represents a where input for filtering User queries.
 type UserWhereInput struct {
-	Predicates []predicate.User  `json:"-"`
-	Not        *UserWhereInput   `json:"not,omitempty"`
-	Or         []*UserWhereInput `json:"or,omitempty"`
-	And        []*UserWhereInput `json:"and,omitempty"`
+	Not *UserWhereInput   `json:"not,omitempty"`
+	Or  []*UserWhereInput `json:"or,omitempty"`
+	And []*UserWhereInput `json:"and,omitempty"`
 
 	// "id" field predicates.
 	ID      *ulid.ID  `json:"id,omitempty"`
@@ -461,11 +446,6 @@ type UserWhereInput struct {
 	HasTodosWith []*TodoWhereInput `json:"hasTodosWith,omitempty"`
 }
 
-// AddPredicates adds custom predicates to the where input to be used during the filtering phase.
-func (i *UserWhereInput) AddPredicates(predicates ...predicate.User) {
-	i.Predicates = append(i.Predicates, predicates...)
-}
-
 // Filter applies the UserWhereInput filter on the UserQuery builder.
 func (i *UserWhereInput) Filter(q *UserQuery) (*UserQuery, error) {
 	if i == nil {
@@ -473,16 +453,10 @@ func (i *UserWhereInput) Filter(q *UserQuery) (*UserQuery, error) {
 	}
 	p, err := i.P()
 	if err != nil {
-		if err == ErrEmptyUserWhereInput {
-			return q, nil
-		}
 		return nil, err
 	}
 	return q.Where(p), nil
 }
-
-// ErrEmptyUserWhereInput is returned in case the UserWhereInput is empty.
-var ErrEmptyUserWhereInput = errors.New("ent: empty predicate UserWhereInput")
 
 // P returns a predicate for filtering users.
 // An error is returned if the input is empty or invalid.
@@ -491,7 +465,7 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 	if i.Not != nil {
 		p, err := i.Not.P()
 		if err != nil {
-			return nil, fmt.Errorf("%w: field 'not'", err)
+			return nil, err
 		}
 		predicates = append(predicates, user.Not(p))
 	}
@@ -499,7 +473,7 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 	case n == 1:
 		p, err := i.Or[0].P()
 		if err != nil {
-			return nil, fmt.Errorf("%w: field 'or'", err)
+			return nil, err
 		}
 		predicates = append(predicates, p)
 	case n > 1:
@@ -507,7 +481,7 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 		for _, w := range i.Or {
 			p, err := w.P()
 			if err != nil {
-				return nil, fmt.Errorf("%w: field 'or'", err)
+				return nil, err
 			}
 			or = append(or, p)
 		}
@@ -517,7 +491,7 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 	case n == 1:
 		p, err := i.And[0].P()
 		if err != nil {
-			return nil, fmt.Errorf("%w: field 'and'", err)
+			return nil, err
 		}
 		predicates = append(predicates, p)
 	case n > 1:
@@ -525,13 +499,12 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 		for _, w := range i.And {
 			p, err := w.P()
 			if err != nil {
-				return nil, fmt.Errorf("%w: field 'and'", err)
+				return nil, err
 			}
 			and = append(and, p)
 		}
 		predicates = append(predicates, user.And(and...))
 	}
-	predicates = append(predicates, i.Predicates...)
 	if i.ID != nil {
 		predicates = append(predicates, user.IDEQ(*i.ID))
 	}
@@ -680,7 +653,7 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 		for _, w := range i.HasTodosWith {
 			p, err := w.P()
 			if err != nil {
-				return nil, fmt.Errorf("%w: field 'HasTodosWith'", err)
+				return nil, err
 			}
 			with = append(with, p)
 		}
@@ -688,7 +661,7 @@ func (i *UserWhereInput) P() (predicate.User, error) {
 	}
 	switch len(predicates) {
 	case 0:
-		return nil, ErrEmptyUserWhereInput
+		return nil, fmt.Errorf("go-ent-gqlgen/ent: empty predicate UserWhereInput")
 	case 1:
 		return predicates[0], nil
 	default:
